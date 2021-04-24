@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class BoardManager : MonoBehaviour {
-
+	public int PASSABLE = 0;
 	public static BoardManager instance = null;
-	private char[,] board;
+	private int[,] board;
 	private Dictionary<IntVector2, BoardPosition> dynamicPositions = new Dictionary<IntVector2, BoardPosition>();
 
 
@@ -19,7 +19,7 @@ public class BoardManager : MonoBehaviour {
 	
 	public void SetupBoard(int width, int height)
 	{
-		board = new char[width, height];
+		board = new int[width, height];
 		for (int xi = 0; xi < board.GetLength(0); xi++)
 		{
 			for (int yi = 0; yi < board.GetLength(1); yi++)
@@ -87,7 +87,7 @@ public class BoardManager : MonoBehaviour {
 
 	public bool IsPassable(int x, int y)
 	{
-		return IsWithinBounds(x, y) && board[x,y] == 'p';
+		return IsWithinBounds(x, y) && board[x,y] == PASSABLE;
 	}
 
 	public bool IsPassable(IntVector2 position)
