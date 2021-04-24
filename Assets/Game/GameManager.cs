@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-	public static int SYMBOL_COUNT;
 	public static GameManager instance = null;
 	public int level = 0;
 	public int symbol = 0;

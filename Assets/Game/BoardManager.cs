@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class BoardManager : MonoBehaviour {
-	public int PASSABLE = GameManager.SYMBOL_COUNT +1;
+	public static int PASSABLE = 4;
 	public static BoardManager instance = null;
 	private int[,] board;
 	private Dictionary<IntVector2, BoardPosition> dynamicPositions = new Dictionary<IntVector2, BoardPosition>();
+	public BlockRenderer blockRendererPrefab;
 
 
 	void Awake()
@@ -24,7 +25,21 @@ public class BoardManager : MonoBehaviour {
 		{
 			for (int yi = 0; yi < board.GetLength(1); yi++)
 			{
-				board[xi, yi] = PASSABLE;
+				if (yi == 0 && xi == 0)
+				{
+					board[xi, yi] = PASSABLE;
+				}
+				else if (xi - yi >=0 && xi - yi <4)
+				{
+					board[xi, yi] = xi - yi;
+					BlockRenderer blockRenderer = Instantiate<BlockRenderer>(blockRendererPrefab);
+					blockRenderer.position = new IntVector2(xi, yi);
+					blockRenderer.transform.position = new Vector3(xi, yi, yi);
+				} else
+				{
+					board[xi, yi] = PASSABLE;
+				}
+				Debug.Log(xi + " " + yi + " " + board[xi, yi]);
 			}
 		}
 	}
@@ -87,7 +102,8 @@ public class BoardManager : MonoBehaviour {
 
 	public bool IsPassable(int x, int y)
 	{
-		return IsWithinBounds(x, y) && board[x,y] == PASSABLE;
+		Debug.Log(board[x, y]);
+		return IsWithinBounds(x, y) && (board[x,y] == PASSABLE || board[x, y] == GameManager.instance.symbol);
 	}
 
 	public bool IsPassable(IntVector2 position)
@@ -95,4 +111,17 @@ public class BoardManager : MonoBehaviour {
 		return IsPassable(position.X, position.Y);
 	}
 
+	public int GetPositionSymbol(int x, int y)
+	{
+		if (IsWithinBounds(x, y))
+		{
+			return board[x, y];
+		}
+		return -1;
+	}
+
+	public int GetPositionSymbol(IntVector2 position)
+	{
+		return GetPositionSymbol(position.X, position.Y);
+	}
 }
