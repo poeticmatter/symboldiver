@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class BoardManager : MonoBehaviour {
-	public int PASSABLE = 0;
+	public int PASSABLE = GameManager.SYMBOL_COUNT +1;
 	public static BoardManager instance = null;
 	private int[,] board;
 	private Dictionary<IntVector2, BoardPosition> dynamicPositions = new Dictionary<IntVector2, BoardPosition>();
@@ -24,7 +24,7 @@ public class BoardManager : MonoBehaviour {
 		{
 			for (int yi = 0; yi < board.GetLength(1); yi++)
 			{
-				board[xi, yi] = 'p';
+				board[xi, yi] = PASSABLE;
 			}
 		}
 	}
